@@ -1,0 +1,8 @@
+numpy
+torch
+torchvision
+gymnasium[atari]
+transformers
+pyyaml
+tensorboard
+opencv-python

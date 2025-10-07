@@ -1,0 +1,115 @@
+env_params:
+  env_name: "BreakoutNoFrameskip-v4"
+  train_full_episode: True
+
+run_params:
+  steps: 1000000
+  max_train_time: 3600
+
+agent_params:
+  use_dueling: True       # Dueling DQN
+  use_double: True        # Double DQN
+  use_per: True           # Prioritized Experience Replay
+  use_c51: True           # Categorical DQN (C51)
+  use_qr: False           # Quantile Regression DQN
+  use_munchausen: False   # Munchausen DQN
+  use_noisy: True         # Noisy Networks
+  use_dropout: False      # Dropout Q-learning
+  use_drq: False          # Data Regularization Q-learning
+  use_rnd: False          # Random Network Distillation (from Curiosity-Driven Exploration)
+  use_curl: False         # Contrastive Unsupervised Representation Learning
+  n_step: 5               # Multistep Q-learning
+
+  device: "cuda"
+
+  lr: 0.0001
+  warmup_steps: 10000
+  decay_steps: 1000000
+  max_grad_norm: 10
+
+  batch_size: 64
+  train_freq: 4
+  learning_start: 50000
+  beta_start: 0.4
+  beta_end: 1.0
+
+  atoms: 51
+  gamma: 0.99
+  epsilon: 0.1
+  eps: 0.000001
+  rnd_coef: 0.1
+
+  eval_freq: 10000
+  eval_count: 5
+  eval_help: False
+  target_update_freq: 5000
+
+  logging: True
+  log_name: "Rainbow"
+  save_model: True
+  load_model: False
+  load_path: "models/..."
+
+  # Filled automatically:
+  # env_lives: 5
+
+
+loss_params:
+  # Filled automatically:
+  # gamma: 0.99
+  # n_step: 1
+  # atoms: 51
+  # use_double: True
+
+  # C51 params:
+  v_min: -10.0
+  v_max: 10.0
+  # QR params:
+  kappa: 1.0
+  target_clip: True
+  target_clip_value: 10.0
+  # Munchausen params:
+  alpha: 0.3
+  tau: 0.1
+  clip_min: -1.0
+  reward_momentum: 0.999
+
+
+replay_params:
+  capacity: 100000
+  # gamma: 0.99 - filled_automatically
+  # n_step: 1 - filled_automatically
+  # PER params:
+  alpha: 0.6
+  eps: 0.000001
+
+
+dqn_params:
+  # use_curl: False - filled automatically
+  curl_params:
+    latent_dim: 512
+    momentum: 0.99
+    temperature: 0.05
+
+  preprocessor: "Base"      # Base / DrQ
+  preprocessor_params:
+    # DrQ params:
+    padding: 4
+
+  encoder: "CNN"      # CNN / Pretrained (use model from HF)
+  encoder_params:
+    # CNN params:
+    # in_shape: [4, 84, 84] - filled automatically
+    out_dim: 512
+    # Pretrained model params
+    model_name: "facebook/dinov2-small"
+    image_size: 224
+
+  head: "Dueling"      # Base / Dueling
+  # Filled automatically:
+  # head_params:
+  #  in_dim: 512
+  #  num_actions: 4
+  #  atoms: 1
+  #  use_noisy: True
+  #  use_dropout: False
